@@ -1,10 +1,12 @@
 import 'package:app_polirubro/models/product.dart';
+import 'package:app_polirubro/providers/auth_provider.dart';
 import 'package:app_polirubro/providers/dark_theme_provider.dart';
 import 'package:app_polirubro/widgets/card_product.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+/*
 List<Product> products = [
   Product(
       id: 1,
@@ -49,6 +51,9 @@ List<Product> products = [
       price: 1000000,
       quantityStock: 10),
 ];
+*/
+
+List<Product> products = [];
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
@@ -60,7 +65,8 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
-    final darkThemeProvider = Provider.of<DarkThemeProvider>(context);
+    final DarkThemeProvider darkThemeProvider = Provider.of<DarkThemeProvider>(context);
+    final AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -68,8 +74,8 @@ class _ProductScreenState extends State<ProductScreen> {
         backgroundColor: Colors.indigo,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () {
-            context.go("/login");
+          onPressed: () async {
+            await authProvider.logout();
           },
           icon: const Icon(
             Icons.logout,

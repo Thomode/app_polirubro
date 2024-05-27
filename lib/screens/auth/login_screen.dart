@@ -1,6 +1,8 @@
+import 'package:app_polirubro/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,6 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
         appBar: AppBar(
           foregroundColor: Colors.black,
@@ -78,8 +82,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                     child: ElevatedButton(
-                      onPressed: () {
-                        context.go("/product");
+                      onPressed: () async {
+                        try {
+                          await authProvider.login(_userController.text, _passwordController.text);
+                          context.go("/product");
+                        } catch (e) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Error de autenticación'),
+                              content: Text(e.toString()),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('Aceptar'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+
                       },
                       style:
                           ElevatedButton.styleFrom(shape: const StadiumBorder(), padding: const EdgeInsets.symmetric(vertical: 16), backgroundColor: Colors.indigo),
