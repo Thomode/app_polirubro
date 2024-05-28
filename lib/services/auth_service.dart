@@ -6,22 +6,34 @@ import 'package:http/http.dart' as http;
 
 class AuthService{
   Future<Auth> login(Login login) async {
-    try{
-      final res = await http.post(
-        Uri.http(baseUrl, "/auth/login"),
-        body: login.toJson(),
-        headers: {"Content-Type": "application/json"},
-      );
+    final res = await http.post(
+        Uri.parse('$baseUrl/auth/login'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(login.toJson())
+    );
 
-      if (res.statusCode == 200) {
-        final json = jsonDecode(res.body);
-        return Auth.fromJson(json);
+    if(res.statusCode == 200){
+      final data = await jsonDecode(res.body);
+      return Auth.fromJson(data);
 
-      } else {
-        throw Exception('Failed to login');
-      }
-    }catch(e){
-      throw Exception('Failed to login');
+    } else {
+      throw Exception(res.body);
+    }
+  }
+
+  Future<Auth> register(Login login) async {
+    final res = await http.post(
+        Uri.parse('$baseUrl/auth/login'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(login.toJson())
+    );
+
+    if(res.statusCode == 200){
+      final data = await jsonDecode(res.body);
+      return Auth.fromJson(data);
+
+    } else {
+      throw Exception(res.body);
     }
   }
 }

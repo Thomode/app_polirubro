@@ -20,7 +20,7 @@ class CardProduct extends StatelessWidget {
               context.go(Uri(
                 path: "/image-full",
                 queryParameters: {
-                  "url": product.image
+                  "url": ""
                 }
               ).toString());
             },
@@ -28,14 +28,14 @@ class CardProduct extends StatelessWidget {
                 padding: const EdgeInsets.all(5),
                 width: 100,
                 height: 100,
-                child: product.image.isEmpty
+                child: "".isEmpty
                     ? Center(
-                  child: Text(product.image),
+                  child: Text(""),
                 )
                     : ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    product.image,
+                    "",
                     fit: BoxFit.fill,
                   ),
                 )

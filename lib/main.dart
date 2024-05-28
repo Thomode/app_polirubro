@@ -1,5 +1,6 @@
 import 'package:app_polirubro/providers/auth_provider.dart';
 import 'package:app_polirubro/providers/dark_theme_provider.dart';
+import 'package:app_polirubro/providers/product_provider.dart';
 import 'package:app_polirubro/screens/auth/forgot_password_screen.dart';
 import 'package:app_polirubro/screens/product/form_product_screen.dart';
 import 'package:app_polirubro/screens/auth/login_screen.dart';
@@ -12,7 +13,11 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => DarkThemeProvider()), ChangeNotifierProvider(create: (_) => AuthProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => DarkThemeProvider()), 
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => ProductProvider())
+      ],
       child: const AppPolirubro()));
 }
 
@@ -37,7 +42,7 @@ class _AppPolirubroState extends State<AppPolirubro> {
     final AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     final GoRouter router = GoRouter(
-      initialLocation: authProvider.isAuthenticated? '/product': '/',
+      initialLocation: authProvider.isAuthenticated ? '/product' : '/',
       routes: <RouteBase>[
         GoRoute(
           path: "/",
@@ -86,6 +91,9 @@ class _AppPolirubroState extends State<AppPolirubro> {
         )
       ],
       redirect: (context, state) {
+        if(state.location == '/register' || state.location == '/forgot-password'){
+          return state.location;
+        }
         if (!authProvider.isAuthenticated && state.location != '/') {
           return '/';
         }

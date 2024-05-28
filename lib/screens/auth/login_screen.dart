@@ -1,6 +1,5 @@
 import 'package:app_polirubro/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -91,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             context: context,
                             builder: (context) => AlertDialog(
                               title: const Text('Error de autenticación'),
-                              content: Text(e.toString()),
+                              content: Text(e.toString().split(': ')[1]),
                               actions: <Widget>[
                                 TextButton(
                                   child: const Text('Aceptar'),
@@ -103,7 +102,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         }
-
                       },
                       style:
                           ElevatedButton.styleFrom(shape: const StadiumBorder(), padding: const EdgeInsets.symmetric(vertical: 16), backgroundColor: Colors.indigo),

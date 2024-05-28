@@ -8,7 +8,6 @@ class Product {
   String barcode;
   String name;
   String description;
-  String image;
   double buyPrice;
   double salePrice;
   int quantityStock;
@@ -19,7 +18,6 @@ class Product {
     required this.barcode,
     required this.name,
     required this.description,
-    required this.image,
     required this.buyPrice,
     required this.salePrice,
     required this.quantityStock,
