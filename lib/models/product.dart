@@ -1,3 +1,4 @@
+import 'package:app_polirubro/models/image.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'category.dart';
 part 'product.g.dart';
@@ -12,6 +13,7 @@ class Product {
   double salePrice;
   int quantityStock;
   Category? category;
+  Image? image;
 
   Product({
     required this.id,
@@ -21,11 +23,11 @@ class Product {
     required this.buyPrice,
     required this.salePrice,
     required this.quantityStock,
-    this.category
+    this.category,
+    this.image
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductToJson(this);
-
 }

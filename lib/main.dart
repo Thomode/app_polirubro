@@ -2,11 +2,14 @@ import 'package:app_polirubro/providers/auth_provider.dart';
 import 'package:app_polirubro/providers/dark_theme_provider.dart';
 import 'package:app_polirubro/providers/product_provider.dart';
 import 'package:app_polirubro/screens/auth/forgot_password_screen.dart';
+import 'package:app_polirubro/screens/category/category_screen.dart';
+import 'package:app_polirubro/screens/home/home_screen.dart';
 import 'package:app_polirubro/screens/product/form_product_screen.dart';
 import 'package:app_polirubro/screens/auth/login_screen.dart';
 import 'package:app_polirubro/screens/product/image_full_screen.dart';
 import 'package:app_polirubro/screens/product/product_screen.dart';
 import 'package:app_polirubro/screens/auth/register_screen.dart';
+import 'package:app_polirubro/widgets/scaffold_with_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +32,8 @@ class AppPolirubro extends StatefulWidget {
 }
 
 class _AppPolirubroState extends State<AppPolirubro> {
+  String currentScreen = '';
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +47,7 @@ class _AppPolirubroState extends State<AppPolirubro> {
     final AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     final GoRouter router = GoRouter(
-      initialLocation: authProvider.isAuthenticated ? '/product' : '/',
+      initialLocation: authProvider.isAuthenticated ? '/home' : '/',
       routes: <RouteBase>[
         GoRoute(
           path: "/",
@@ -55,16 +60,6 @@ class _AppPolirubroState extends State<AppPolirubro> {
         GoRoute(
           path: "/forgot-password",
           builder: (context, state) => const ForgotPasswordScreen(),
-        ),
-        GoRoute(
-          path: "/product",
-          builder: (context, state) => const ProductScreen(),
-          redirect: (context, state) {
-            if (!authProvider.isAuthenticated) {
-              return '/';
-            }
-            return null;
-          },
         ),
         GoRoute(
           path: "/form-product",
@@ -88,7 +83,42 @@ class _AppPolirubroState extends State<AppPolirubro> {
             }
             return null;
           },
-        )
+        ),
+        ShellRoute(
+          builder: (context, state, child) => ScaffoldWithNavbar(child: child),
+          routes: [
+            GoRoute(
+              path: "/home",
+              builder: (context, state) => const HomeScreen(),
+              redirect: (context, state) {
+                if (!authProvider.isAuthenticated) {
+                  return '/';
+                }
+                return null;
+              },
+            ),
+            GoRoute(
+              path: "/products",
+              builder: (context, state) => const ProductScreen(),
+              redirect: (context, state) {
+                if (!authProvider.isAuthenticated) {
+                  return '/';
+                }
+                return null;
+              },
+            ),
+            GoRoute(
+              path: "/categories",
+              builder: (context, state) => const CategoryScreen(),
+              redirect: (context, state) {
+                if (!authProvider.isAuthenticated) {
+                  return '/';
+                }
+                return null;
+              },
+            ),
+          ]
+        ),
       ],
       redirect: (context, state) {
         if(state.location == '/register' || state.location == '/forgot-password'){

@@ -80,31 +80,6 @@ class _ProductScreenState extends State<ProductScreen> {
     final AuthProvider authProvider = Provider.of<AuthProvider>(context);
     final ProductProvider productProvider = Provider.of<ProductProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Productos", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.indigo,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () async {
-            await authProvider.logout();
-          },
-          icon: const Icon(
-            Icons.logout,
-            color: Colors.white,
-          ),
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                darkThemeProvider.darkTheme = !darkThemeProvider.darkTheme;
-                print(darkThemeProvider.darkTheme);
-              },
-              icon: const Icon(
-                Icons.light_mode,
-                color: Colors.white,
-              ))
-        ],
-      ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Column(

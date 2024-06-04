@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:app_polirubro/models/product_request.dart';
+import 'package:app_polirubro/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class FormProductScreen extends StatefulWidget {
   const FormProductScreen({super.key});
@@ -61,6 +64,8 @@ class _FormProductScreenState extends State<FormProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ProductProvider productProvider = Provider.of<ProductProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -75,7 +80,7 @@ class _FormProductScreenState extends State<FormProductScreen> {
             color: Colors.white,
           ),
           onPressed: () {
-            context.go("/product");
+            context.go("/products");
           },
         ),
       ),
@@ -204,8 +209,38 @@ class _FormProductScreenState extends State<FormProductScreen> {
               height: 5,
             ),
             ElevatedButton(
-              onPressed: () {
-                context.go("/product");
+              onPressed: () async {
+                try{
+                  ProductRequest productRequest = ProductRequest(
+                      name: _nameController.text,
+                      description: _descriptionController.text,
+                      buyPrice: double.parse(_buyPriceController.text),
+                      salePrice: double.parse(_salePriceController.text),
+                      quantityStock: int.parse(_quantityStockController.text),
+                      categoryId: 1
+                  );
+
+                  await productProvider.save(productRequest);
+                  context.go("/products");
+
+                } catch(e){
+                  print(e.toString());
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Error al guardar el producto'),
+                      content: Text(e.toString().split(': ')[1]),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('Aceptar'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(shape: const StadiumBorder(), padding: const EdgeInsets.symmetric(vertical: 16), backgroundColor: Colors.indigo),
               child: const Center(

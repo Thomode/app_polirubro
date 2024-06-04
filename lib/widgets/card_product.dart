@@ -28,14 +28,14 @@ class CardProduct extends StatelessWidget {
                 padding: const EdgeInsets.all(5),
                 width: 100,
                 height: 100,
-                child: "".isEmpty
-                    ? Center(
-                  child: Text(""),
+                child: product.image == null
+                    ? const Center(
+                  child: Text("No image"),
                 )
                     : ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    "",
+                    product.image!.url,
                     fit: BoxFit.fill,
                   ),
                 )
@@ -43,8 +43,8 @@ class CardProduct extends StatelessWidget {
           ),
           Expanded(
               child: ListTile(
-                title: Text(product.name, style: const TextStyle(color: Colors.indigo, fontSize: 21)),
-                subtitle: Text(product.description, style: const TextStyle(fontSize: 14)),
+                title: Text(product.name, style: const TextStyle(color: Colors.indigo, fontSize: 18)),
+                subtitle: Text(product.description, style: const TextStyle(fontSize: 11)),
               )),
           IconButton(
               onPressed: () {},
@@ -52,13 +52,6 @@ class CardProduct extends StatelessWidget {
                 Icons.delete,
                 color: Colors.red,
               )),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.remove_red_eye,
-              color: Colors.indigo,
-            ),
-          ),
         ],
       ),
     );
