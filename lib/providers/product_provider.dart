@@ -24,4 +24,10 @@ class ProductProvider with ChangeNotifier{
 
     notifyListeners();
   }
+
+  Future<void> delete(int productId) async{
+    await _productService.delete(productId);
+
+    notifyListeners();
+  }
 }

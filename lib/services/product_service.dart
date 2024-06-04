@@ -46,4 +46,18 @@ class ProductService {
       throw Exception(res.body);
     }
   }
+
+  Future<void> delete(int productId) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String token = sharedPreferences.getString('token') ?? '';
+
+    final res = await http.delete(Uri.parse('$baseUrl/products/$productId'), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    if (res.statusCode != 200) {
+      throw Exception(res.body);
+    }
+  }
 }

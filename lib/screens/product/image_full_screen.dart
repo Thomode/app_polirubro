@@ -17,7 +17,7 @@ class ImageFullScreen extends StatelessWidget {
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
-              context.go("/product");
+              context.go("/products");
             },
             icon: const Icon(
               Icons.arrow_back,

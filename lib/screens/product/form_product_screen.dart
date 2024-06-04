@@ -224,7 +224,6 @@ class _FormProductScreenState extends State<FormProductScreen> {
                   context.go("/products");
 
                 } catch(e){
-                  print(e.toString());
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
